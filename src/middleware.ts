@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { resolveTenantSlugFromHost, isReservedSlug } from "@/lib/tenant";
-import { env } from "@/lib/env";
 
 /**
  * Handles the two domain strategies (see docs/DOMAIN-STRATEGY.md):
@@ -27,7 +26,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (env.TENANT_MODE !== "subdomain") {
+  if (process.env.TENANT_MODE !== "subdomain") {
     return NextResponse.next();
   }
 
