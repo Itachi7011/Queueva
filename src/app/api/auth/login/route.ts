@@ -29,16 +29,31 @@ export async function POST(request: Request) {
     tenantId = tenant.id;
   }
 
-  const user = await db.user.findUnique({
-    where: { tenantId_email: { tenantId, email } },
-  });
+  const user = tenantId
+    ? await db.user.findUnique({
+        where: {
+          tenantId_email: {
+            tenantId,
+            email,
+          },
+        },
+      })
+    : await db.user.findFirst({
+        where: {
+          tenantId: null,
+          email,
+        },
+      });
 
   if (!user || !(await verifyPassword(password, user.passwordHash))) {
     return apiError("Invalid email or password.", 401);
   }
 
   if (!user.isActive) {
-    return apiError("This account has been disabled. Contact your shop admin.", 403);
+    return apiError(
+      "This account has been disabled. Contact your shop admin.",
+      403,
+    );
   }
 
   if (!user.isEmailVerified) {
@@ -48,7 +63,7 @@ export async function POST(request: Request) {
         code: "EMAIL_NOT_VERIFIED",
         userId: user.id,
       },
-      { status: 403 }
+      { status: 403 },
     );
   }
 
