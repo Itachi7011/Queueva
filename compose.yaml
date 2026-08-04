@@ -1,0 +1,50 @@
+# This file starts up two things together with one command:
+#   1. "db"  - a Postgres database
+#   2. "app" - our Next.js app, built from the Dockerfile in this folder
+#
+# To start everything:
+#   docker compose up --build
+#
+# To stop everything:
+#   docker compose down
+#
+# The very first time you run this, you also need to create the database
+# tables. See docs/DOCKER.md for that one extra command.
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: queueva
+      POSTGRES_PASSWORD: queueva
+      POSTGRES_DB: queueva
+    volumes:
+      # This keeps your database data saved even if you stop the container.
+      - db_data:/var/lib/postgresql/data
+    ports:
+      # Lets you connect to the database from your own computer too,
+      # for example with a database viewer app, or the prisma command
+      # mentioned in docs/DOCKER.md.
+      - "5432:5432"
+
+  app:
+    build: .
+    restart: always
+    depends_on:
+      - db
+    # This loads all the settings from your .env file (copy .env.example
+    # to .env first and fill it in - see docs/DOCKER.md).
+    env_file:
+      - .env
+    environment:
+      # IMPORTANT: inside Docker, the database is not on "localhost", it is
+      # on a computer named "db" (that's the service name above). So we
+      # override DATABASE_URL here to point at "db" instead of whatever is
+      # in your .env file.
+      DATABASE_URL: postgresql://queueva:queueva@db:5432/queueva
+    ports:
+      - "3000:3000"
+
+volumes:
+  db_data:

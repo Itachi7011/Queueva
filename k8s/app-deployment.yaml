@@ -1,0 +1,59 @@
+# This tells Kubernetes to run our app container, and keep it running.
+#
+# BEFORE this will work, Kubernetes needs to be able to find the image
+# named "queueva:latest" below. There are two common ways to do that
+# for local testing:
+#
+#   Option A - using minikube:
+#     1. docker build -t queueva:latest .
+#     2. minikube image load queueva:latest
+#
+#   Option B - using kind:
+#     1. docker build -t queueva:latest .
+#     2. kind load docker-image queueva:latest
+#
+# For a real deployment (not just local testing), you would instead push
+# the image to a registry (like Docker Hub) and change the "image:" line
+# below to point at it, for example "yourusername/queueva:latest".
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: queueva-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: queueva-app
+  template:
+    metadata:
+      labels:
+        app: queueva-app
+    spec:
+      containers:
+        - name: queueva-app
+          image: queueva:latest
+          # "IfNotPresent" means: use the image already loaded into the
+          # cluster, don't try to download it from the internet. This is
+          # what you want when testing with a locally-built image.
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: app-config
+            - secretRef:
+                name: app-secret
+          # These two checks let Kubernetes know if the app is working.
+          # They both just visit our /api/health page, which checks that
+          # the app can talk to the database.
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 15

@@ -1,0 +1,21 @@
+# This holds settings that are NOT secret (no passwords or private keys).
+# Things like passwords go in app-secret.yaml instead.
+#
+# Note: ROOT_DOMAIN, NEXT_PUBLIC_ROOT_DOMAIN, NEXT_PUBLIC_APP_URL, and
+# NEXT_PUBLIC_SITE_URL below are placeholder values for testing. Once you
+# have a real domain, update these to match it.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  NODE_ENV: "production"
+  TENANT_MODE: "path"
+  NEXT_PUBLIC_TENANT_MODE: "path"
+  ROOT_DOMAIN: "localhost:3000"
+  NEXT_PUBLIC_ROOT_DOMAIN: "localhost:3000"
+  NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+  NEXT_PUBLIC_SITE_URL: "https://queueva.com"
+  JWT_ACCESS_TTL: "15m"
+  JWT_REFRESH_TTL: "30d"

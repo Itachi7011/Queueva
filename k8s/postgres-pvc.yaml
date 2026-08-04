@@ -1,0 +1,13 @@
+# This asks Kubernetes for a piece of storage (a "disk") to save the
+# database's data on, so it isn't lost if the database pod restarts.
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

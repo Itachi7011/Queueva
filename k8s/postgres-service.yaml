@@ -1,0 +1,15 @@
+# This gives the database container a stable internal name: "postgres".
+# Other things running in the cluster (like our app) can reach the
+# database using that name, instead of needing to know its changing
+# internal IP address.
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  selector:
+    app: postgres
+  ports:
+    - port: 5432
+      targetPort: 5432

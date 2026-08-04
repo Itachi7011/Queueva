@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+ * Queueva design tokens
+ * Palette: warm parchment canvas, deep indigo-navy ink, marigold accent for
+ * the "your next slot" signal, forest green for confirmed/success states.
+ * ------------------------------------------------------------------------- */
+:root {
+  --color-canvas: #faf8f3;
+  --color-canvas-raised: #ffffff;
+  --color-ink: #1b2440;
+  --color-ink-soft: #4a5170;
+  --color-navy: #14192e;
+  --color-navy-raised: #1e2542;
+  --color-marigold: #f5a623;
+  --color-marigold-ink: #7a4e05;
+  --color-forest: #2b6e63;
+  --color-line: #e7e1d3;
+  --color-line-dark: #2c3352;
+}
+
+@theme inline {
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --color-canvas: var(--color-canvas);
+  --color-canvas-raised: var(--color-canvas-raised);
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-navy: var(--color-navy);
+  --color-navy-raised: var(--color-navy-raised);
+  --color-marigold: var(--color-marigold);
+  --color-marigold-ink: var(--color-marigold-ink);
+  --color-forest: var(--color-forest);
+  --color-line: var(--color-line);
+  --color-line-dark: var(--color-line-dark);
+}
+
+body {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+}

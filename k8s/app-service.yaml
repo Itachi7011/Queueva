@@ -1,0 +1,25 @@
+# This gives our app container a stable internal name ("queueva-app"),
+# and also opens it up so you can reach it from outside the cluster,
+# using a "NodePort" - a fixed port number on your own computer.
+#
+# After this is applied, and if you're using minikube, run:
+#   minikube service queueva-app
+# to open it in your browser automatically.
+#
+# If you're using a cloud provider (like AWS, GCP, Azure) instead of
+# testing locally, you would usually change "type: NodePort" below to
+# "type: LoadBalancer" instead, so the cloud gives you a real public
+# address.
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: queueva-app
+spec:
+  type: NodePort
+  selector:
+    app: queueva-app
+  ports:
+    - port: 3000
+      targetPort: 3000
+      nodePort: 30080
