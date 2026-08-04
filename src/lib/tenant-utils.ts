@@ -1,3 +1,5 @@
+// src/lib/tenant-utils.ts
+
 export const RESERVED_SLUGS = [
   "api",
   "admin",
@@ -19,7 +21,17 @@ export const RESERVED_SLUGS = [
 
 
 export function isReservedSlug(slug: string): boolean {
-  return (RESERVED_SLUGS as readonly string[]).includes(slug.toLowerCase());
+  return (RESERVED_SLUGS as readonly string[]).includes(
+    slug.toLowerCase()
+  );
+}
+
+
+export function isValidSlugFormat(slug: string): boolean {
+  return (
+    /^[a-z0-9](?:[a-z0-9-]{1,30}[a-z0-9])?$/.test(slug) &&
+    !isReservedSlug(slug)
+  );
 }
 
 

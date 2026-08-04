@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { resolveTenantSlugFromHost, isReservedSlug } from "@/lib/tenant";
+import {
+  resolveTenantSlugFromHost,
+  isReservedSlug,
+} from "@/lib/tenant-utils";
 
 /**
  * Handles the two domain strategies (see docs/DOMAIN-STRATEGY.md):
@@ -31,7 +34,10 @@ export function middleware(request: NextRequest) {
   }
 
   const host = request.headers.get("host") || "";
-  const slug = resolveTenantSlugFromHost(host);
+  const slug = resolveTenantSlugFromHost(
+  host,
+  process.env.ROOT_DOMAIN || ""
+);
 
   if (!slug || isReservedSlug(slug)) {
     return NextResponse.next();

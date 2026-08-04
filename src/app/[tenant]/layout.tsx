@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { getTenantBySlug, isReservedSlug } from "@/lib/tenant";
+import { getTenantBySlug } from "@/lib/tenant";
+import { isReservedSlug } from "@/lib/tenant-utils";
 import { getCurrentUser } from "@/lib/auth/session";
 import { buildAbsoluteTenantUrl } from "@/lib/tenant-url";
 

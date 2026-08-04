@@ -6,7 +6,7 @@ import { hashPassword } from "@/lib/auth/password";
 import { createOtp } from "@/lib/auth/otp";
 import { sendOtpEmail } from "@/lib/mailer";
 import { hit, getClientIp } from "@/lib/rate-limit";
-import { isReservedSlug } from "@/lib/tenant";
+import { isReservedSlug } from "@/lib/tenant-utils";
 
 export async function POST(request: Request) {
   const rl = hit(`signup:${getClientIp(request)}`, 5, 60 * 10);

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { isValidSlugFormat } from "@/lib/tenant";
+import { isValidSlugFormat } from "@/lib/tenant-utils";
 
 /**
  * Shared password policy: min 8 chars, at least one letter and one number.
